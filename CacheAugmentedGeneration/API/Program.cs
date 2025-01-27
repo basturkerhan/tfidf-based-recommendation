@@ -1,5 +1,6 @@
 using API.DialogRecommendation.Interfaces;
 using API.DialogRecommendation.Services;
+using API.DialogRecommendation.Services.Decorator;
 using CAG.Utils.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCAG(builder.Configuration);
-builder.Services.AddScoped<IDialogRecommender, DialogRecommender>();
+builder.Services
+    .AddScoped<IDialogRecommender, DialogRecommender>()
+    .Decorate<IDialogRecommender, DialogRecommenderCacheDecorator>();
 
 var app = builder.Build();
 
